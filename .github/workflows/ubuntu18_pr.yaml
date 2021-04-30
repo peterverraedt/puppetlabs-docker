@@ -1,6 +1,12 @@
 name: "Test on Ubuntu Github Runners"
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+    - disable-this-workflow
+  pull_request:
+    branches:
+    - disable-this-workflow
 
 jobs:
   Acceptance:
