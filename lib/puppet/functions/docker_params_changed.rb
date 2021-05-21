@@ -119,7 +119,11 @@ Puppet::Functions.create_function(:docker_params_changed) do
 
         # check if something on ports was changed(some ports were added or removed)
 
-        ports = inspect_hash['HostConfig']['PortBindings'].keys
+        ports = if inspect_hash['HostConfig']['PortBindings']
+                  inspect_hash['HostConfig']['PortBindings'].keys
+                else
+                  []
+                end
         ports = ports.map { |item| item.split('/')[0] }
         pp_ports = opts['ports'].sort if opts['ports'].is_a?(Array)
         pp_ports = [opts['ports']] if opts['ports'].is_a?(String)
