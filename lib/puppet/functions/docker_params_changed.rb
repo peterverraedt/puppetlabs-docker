@@ -105,10 +105,10 @@ Puppet::Functions.create_function(:docker_params_changed) do
                         end
         param_changed = true if pp_paths != inspect_paths
 
-        names = inspect_hash['Mounts'].map { |item| item.values[1] } if inspect_hash['Mounts']
+        names = inspect_hash['Mounts'].map { |item| item['Source'] } if inspect_hash['Mounts']
         pp_names = pp_mounts.map { |item| item.split(':')[0] } if pp_mounts
         names = names.select { |item| pp_names.include?(item) } if names && pp_names
-        destinations = inspect_hash['Mounts'].map { |item| item.values[3] } if inspect_hash['Mounts']
+        destinations = inspect_hash['Mounts'].map { |item| item['Destination'] } if inspect_hash['Mounts']
         pp_destinations = pp_mounts.map { |item| item.split(':')[1] } if pp_mounts && opts['osfamily'] != 'windows'
         pp_destinations = pp_mounts.map { |item| "#{item.split(':')[1].downcase}:#{item.split(':')[2]}" } if pp_mounts && opts['osfamily'] == 'windows'
         destinations = destinations.select { |item| pp_destinations.include?(item) } if destinations && pp_destinations
